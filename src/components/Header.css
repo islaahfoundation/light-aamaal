@@ -1,0 +1,81 @@
+/* ========================================
+   AAMAAL — SHARED HEADER
+======================================== */
+
+.app-header {
+  width: 100%;
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 10px 0;
+}
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.app-header-brand {
+  min-width: 0;
+}
+
+.app-header-brand h1 {
+  color: #26352b;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 23px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.app-header-brand p {
+  margin-top: 3px;
+  color: #929b91;
+  font-size: 12px;
+}
+
+.app-header-back,
+.app-header-action {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  border: 1px solid #e8e5d9;
+  border-radius: 50%;
+
+  background: #ffffff;
+  color: #426b53;
+
+  font-size: 20px;
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+}
+
+.app-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.app-header-back:active,
+.app-header-action:active {
+  transform: scale(0.96);
+}
+
+/* Mobile adjustments */
+
+@media (max-width: 480px) {
+  .app-header-brand h1 {
+    font-size: 21px;
+  }
+}
