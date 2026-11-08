@@ -1,1 +1,373 @@
+/* ========================================
+   AAMAAL — GLOBAL DESIGN SYSTEM
+   Live with Purpose
+======================================== */
 
+/* 1. Design Tokens */
+
+:root {
+  /* Brand colours */
+  --color-primary: #426b53;
+  --color-primary-dark: #2f513e;
+  --color-primary-light: #e8efe8;
+
+  /* Backgrounds */
+  --color-background: #fbf8ed;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f4f0e4;
+
+  /* Text */
+  --color-text: #26352b;
+  --color-text-secondary: #68766b;
+  --color-text-muted: #929b91;
+
+  /* Accent colours */
+  --color-gold: #c49a48;
+  --color-gold-light: #f5ecd8;
+  --color-blue: #8bbbd0;
+  --color-danger: #c45d55;
+  --color-success: #568467;
+
+  /* Borders and shadows */
+  --color-border: #e8e5d9;
+  --shadow-soft: 0 4px 20px rgba(43, 62, 48, 0.06);
+  --shadow-card: 0 8px 28px rgba(43, 62, 48, 0.08);
+
+  /* Typography */
+  --font-body: "DM Sans", sans-serif;
+  --font-heading: "Playfair Display", Georgia, serif;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* Shape */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 30px;
+  --radius-full: 999px;
+
+  /* Layout */
+  --page-max-width: 480px;
+  --header-height: 64px;
+}
+
+
+/* 2. Reset */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+
+/* 3. Typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: clamp(30px, 7vw, 40px);
+}
+
+h2 {
+  font-size: 28px;
+}
+
+h3 {
+  font-size: 22px;
+}
+
+p {
+  color: var(--color-text-secondary);
+}
+
+small {
+  font-size: 12px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* 4. Buttons */
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: white;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 11px 22px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+
+/* 5. Cards */
+
+.card {
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.card-soft {
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-soft);
+}
+
+
+/* 6. Form Elements */
+
+input,
+textarea,
+select {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 15px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(66, 107, 83, 0.1);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+
+/* 7. Shared Layout */
+
+.page-container {
+  width: 100%;
+  max-width: var(--page-max-width);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: var(--space-5);
+}
+
+.page-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-6);
+  text-align: center;
+}
+
+.placeholder-logo {
+  margin-bottom: var(--space-5);
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.page-placeholder h1 {
+  margin-bottom: var(--space-2);
+}
+
+.page-placeholder span {
+  margin-top: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+
+/* 8. Utility Classes */
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-gold {
+  color: var(--color-gold);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-5 { margin-top: var(--space-5); }
+.mt-6 { margin-top: var(--space-6); }
+
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-5 { margin-bottom: var(--space-5); }
+
+
+/* 9. Scrollbar */
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: var(--radius-full);
+  background: #c9d2c8;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+/* 10. Mobile Optimisation */
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: var(--space-4);
+  }
+
+  h2 {
+    font-size: 25px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
