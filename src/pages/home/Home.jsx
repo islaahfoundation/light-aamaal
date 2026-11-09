@@ -1,47 +1,86 @@
-import { useState } from "react";
+Import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-// Note: In Vite, you can import assets directly like this. 
-// If your logo is named something else, just change the filename here!
-import headerBg from "../../assets/backgrounds/header.png"; 
 
 export default function Home() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
 
+  const [search, setSearch] = useState("");
+  const [profileName, setProfileName] = useState("there");
+
+  // Demo dashboard values until connected to the Aamaal data system.
   const [progress] = useState({
-    percentage: 0,
-    completedGoals: 0,
+    percentage: 67,
+    completedGoals: 2,
     totalGoals: 3,
-    dhikr: 0,
-    sessions: 0,
+    dhikr: 33,
+    sessions: 1,
     reminders: 1,
   });
 
+  useEffect(() => {
+    try {
+      const profile = JSON.parse(
+        localStorage.getItem("aamaal-profile") || "{}"
+      );
+
+      const activeId = localStorage.getItem("aamaal-active-profile");
+      const family = JSON.parse(
+        localStorage.getItem("aamaal-family") || "[]"
+      );
+
+      const activeMember = family.find(
+        (member) => member.id === activeId
+      );
+
+      const name = activeMember?.name || profile.name;
+
+      if (name) {
+        setProfileName(name.split(" ")[0]);
+      }
+    } catch {
+      setProfileName("there");
+    }
+  }, []);
+
   const quickActions = [
-    { title: "Tasbih", icon: "tasbih", route: "/tasbih" },
-    { title: "Duas", icon: "dua", route: "/duas" },
-    { title: "Stories", icon: "book", route: "/stories" },
-    { title: "Saved", icon: "saved", route: "/saved" },
+    {
+      title: "Tasbih",
+      icon: "tasbih",
+      route: "/tasbih",
+    },
+    {
+      title: "Duas",
+      icon: "dua",
+      route: "/duas",
+    },
+    {
+      title: "Stories",
+      icon: "book",
+      route: "/stories",
+    },
+    {
+      title: "Saved",
+      icon: "saved",
+      route: "/saved",
+    },
   ];
 
   const handleSearch = (event) => {
     event.preventDefault();
+
     if (search.trim()) {
       navigate(`/search?q=${encodeURIComponent(search.trim())}`);
-    } else {
-      navigate("/search");
     }
   };
 
-  const Icon = ({ name, size = 24 }) => {
+  const Icon = ({ name, size = 26 }) => {
     const common = {
       width: size,
       height: size,
       viewBox: "0 0 32 32",
       fill: "none",
       stroke: "currentColor",
-      strokeWidth: 1.9,
+      strokeWidth: 1.8,
       strokeLinecap: "round",
       strokeLinejoin: "round",
     };
@@ -50,77 +89,84 @@ export default function Home() {
       case "tasbih":
         return (
           <svg {...common}>
-            <circle cx="16" cy="14.5" r="8.5" strokeDasharray="1.5 3.2" strokeWidth="2.4" />
-            <path d="M16 23v4.5M14 27.5h4" strokeWidth="2" />
-            <circle cx="16" cy="6" r="1.8" fill="currentColor" />
+            <circle cx="16" cy="16" r="10.5" strokeDasharray="2.5 2.5" />
+            <circle cx="16" cy="5.5" r="2" fill="currentColor" />
+            <path d="M16 26.5v2.5l3 1" />
           </svg>
         );
+
       case "dua":
         return (
           <svg {...common}>
-            <path d="M9 18.5V12a2 2 0 0 1 4 0v5" />
-            <path d="M13 14v-3.5a2 2 0 0 1 4 0V17" />
-            <path d="M9 17.5c-1.5 1-2.5 2.8-2.5 4.8 0 3.2 2.6 5.2 6.5 5.2h1.5c2 0 3.5-1.2 3.5-3v-7" />
-            <path d="M23 18.5V12a2 2 0 0 0-4 0v5" />
-            <path d="M23 17.5c1.5 1 2.5 2.8 2.5 4.8 0 3.2-2.6 5.2-6.5 5.2h-1.5" />
+            <path d="M16 27s-10-6-10-14a5 5 0 0 1 10-2 5 5 0 0 1 10 2c0 8-10 14-10 14Z" />
+            <path d="M16 8v15M12 13l4-5 4 5" />
           </svg>
         );
+
       case "book":
         return (
           <svg {...common}>
-            <path d="M16 8.5c-3-2.2-7.5-2.5-11-1.5v17c3.5-1 8-.7 11 1.5" />
-            <path d="M16 8.5c3-2.2 7.5-2.5 11-1.5v17c-3.5-1-8-.7-11 1.5" />
-            <path d="M16 8.5v17" />
+            <path d="M16 8c-3-3-8-3-12-2v20c4-1 9-1 12 2" />
+            <path d="M16 8c3-3 8-3 12-2v20c-4-1-9-1-12 2" />
+            <path d="M16 8v20" />
           </svg>
         );
+
       case "saved":
         return (
           <svg {...common}>
-            <path d="M9 5.5h14a1 1 0 0 1 1 1v20l-8-5.5-8 5.5v-20a1 1 0 0 1 1-1Z" />
+            <path d="M8 5h16v23l-8-6-8 6V5Z" />
           </svg>
         );
+
       case "bell":
         return (
           <svg {...common}>
-            <path d="M8 22h16l-1.8-2.8V13a6.2 6.2 0 0 0-12.4 0v6.2L8 22Z" />
-            <path d="M13.5 25a2.5 2.5 0 0 0 5 0" />
+            <path d="M7 22h18l-2-3v-7a7 7 0 0 0-14 0v7l-2 3Z" />
+            <path d="M13 26a3 3 0 0 0 6 0" />
           </svg>
         );
+
       case "settings":
         return (
           <svg {...common}>
-            <circle cx="16" cy="16" r="3.8" />
-            <path d="M19.4 12.6a1.8 1.8 0 0 0 .36-1.98l-.07-.12a2.18 2.18 0 0 1 2.98-2.98l.12.07a1.8 1.8 0 0 0 1.98-.36l.09-.09a2.18 2.18 0 0 1 3.08 3.08l-.09.09a1.8 1.8 0 0 0-.36 1.98v.14a1.8 1.8 0 0 0 1.48 1.09h.14a2.18 2.18 0 0 1 0 4.36h-.14a1.8 1.8 0 0 0-1.48 1.09v.14a1.8 1.8 0 0 0 .36 1.98l.09.09a2.18 2.18 0 0 1-3.08 3.08l-.09-.09a1.8 1.8 0 0 0-1.98-.36l-.12.07a2.18 2.18 0 0 1-2.98-2.98l.07-.12a1.8 1.8 0 0 0-.36-1.98l-.1-.1a1.8 1.8 0 0 0-1.98-.36h-.14a1.8 1.8 0 0 0-1.09 1.48v.14a2.18 2.18 0 0 1-4.36 0v-.14a1.8 1.8 0 0 0-1.09-1.48h-.14a1.8 1.8 0 0 0-1.98.36l-.09.09a2.18 2.18 0 0 1-3.08-3.08l.09-.09a1.8 1.8 0 0 0 .36-1.98v-.14A1.8 1.8 0 0 0 5.62 18H5.5a2.18 2.18 0 0 1 0-4.36h.14a1.8 1.8 0 0 0 1.48-1.09v-.14a1.8 1.8 0 0 0-.36-1.98l-.09-.09a2.18 2.18 0 0 1 3.08-3.08l.09.09a1.8 1.8 0 0 0 1.98.36l.12-.07a2.18 2.18 0 0 1 2.98 2.98l-.07.12a1.8 1.8 0 0 0 .36 1.98l.1.1Z" />
+            <circle cx="16" cy="16" r="4" />
+            <path d="m13 3 1-2h4l1 2 3 2 2-1 3 3-1 2 1 4 2 1v4l-2 1-1 4 1 2-3 3-2-1-3 2-1 2h-4l-1-2-3-2-2 1-3-3 1-2-1-4-2-1v-4l2-1 1-4-1-2 3-3 2 1 3-2Z" />
           </svg>
         );
+
       case "search":
         return (
           <svg {...common}>
-            <circle cx="14" cy="14" r="7.5" />
-            <path d="m19.5 19.5 6 6" />
+            <circle cx="13.5" cy="13.5" r="8" />
+            <path d="m20 20 7 7" />
           </svg>
         );
+
       case "arrow":
         return (
           <svg {...common}>
-            <path d="m12 8 8 8-8 8" strokeWidth="2.2" />
+            <path d="m12 7 9 9-9 9" />
           </svg>
         );
-      case "home-filled":
+
+      case "home":
         return (
-          <svg width={size} height={size} viewBox="0 0 32 32" fill="currentColor">
-            <path d="M15.1 4.2a1.4 1.4 0 0 1 1.8 0l11 9.5c.65.56.25 1.63-.6 1.63H25v11.2c0 .83-.67 1.5-1.5 1.5h-5.2v-7.5h-4.6V28H8.5A1.5 1.5 0 0 1 7 26.5V15.3H4.7c-.85 0-1.25-1.07-.6-1.63l11-9.5Z" />
+          <svg {...common}>
+            <path d="m3 14 13-11 13 11v15H19v-9h-6v9H3V14Z" />
           </svg>
         );
+
       case "more":
         return (
           <svg {...common}>
-            <rect x="4" y="7" width="24" height="18" rx="4.5" />
-            <circle cx="11" cy="16" r="1.2" fill="currentColor" />
-            <circle cx="16" cy="16" r="1.2" fill="currentColor" />
-            <circle cx="21" cy="16" r="1.2" fill="currentColor" />
+            <rect x="3" y="6" width="26" height="20" rx="5" />
+            <circle cx="10" cy="16" r="1" fill="currentColor" />
+            <circle cx="16" cy="16" r="1" fill="currentColor" />
+            <circle cx="22" cy="16" r="1" fill="currentColor" />
           </svg>
         );
+
       default:
         return null;
     }
@@ -129,44 +175,46 @@ export default function Home() {
   return (
     <div className="home-page">
       <style>{`
+        * {
+          box-sizing: border-box;
+        }
+
         .home-page {
-          height: 100vh;
-          max-height: 100vh;
-          overflow: hidden; /* Stops all scrolling */
-          background: #f4f2ea;
-          color: #123b2a;
-          font-family: "DM Sans", Inter, -apple-system, sans-serif;
-          display: flex;
-          flex-direction: column;
+          min-height: 100vh;
+          background: #fbf8ed;
+          color: #17372a;
+          font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          padding-bottom: 100px;
+          overflow-x: hidden;
         }
 
         .home-container {
           width: 100%;
-          max-width: 480px;
-          margin: 0 auto;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
+          max-width: 520px;
+          margin: auto;
         }
 
-        /* HERO SECTION (Dynamically sizes to fit screen) */
+        /* Hero */
+
         .home-hero {
           position: relative;
-          padding: max(22px, env(safe-area-inset-top)) 20px 20px;
-          flex-shrink: 0;
-          height: 38vh; /* Adjusts automatically to screen size */
-          min-height: 250px;
+          min-height: 510px;
+          padding: 45px 25px 35px;
+          overflow: hidden;
           background:
             linear-gradient(
               180deg,
-              rgba(246, 244, 236, 0.25) 0%,
-              rgba(246, 244, 236, 0.1) 55%,
-              #f4f2ea 100%
+              rgba(255, 251, 236, 0.05) 0%,
+              rgba(255, 249, 226, 0.15) 48%,
+              #fbf8ed 100%
             ),
-            url(${headerBg}) center top / cover no-repeat;
+            url("https://images.unsplash.com/photo-1519817650390-64a93db51149?w=1200")
+            center center / cover no-repeat;
         }
 
         .home-topbar {
+          position: relative;
+          z-index: 2;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -175,435 +223,748 @@ export default function Home() {
         .home-brand {
           display: flex;
           align-items: center;
-          gap: 11px;
+          gap: 12px;
         }
 
-        .home-brand-logo {
-          width: 50px;
-          height: 50px;
-          flex-shrink: 0;
-          object-fit: contain;
+        .home-brand-mark {
+          width: 90px;
+          height: 80px;
+          color: #075b43;
         }
 
         .home-brand-name {
-          font-family: "Playfair Display", Georgia, serif;
-          font-size: 28px;
-          font-weight: 700;
+          font-family: Georgia, serif;
+          font-size: 39px;
           line-height: 1;
-          color: #0b4a35;
+          font-weight: 700;
+          color: #07513c;
           margin: 0;
         }
 
         .home-brand-tagline {
-          font-size: 10px;
+          font-family: Georgia, serif;
+          font-size: 15px;
           font-weight: 600;
-          letter-spacing: 1.2px;
-          color: #2c5845;
-          margin-top: 3px;
+          margin-top: 7px;
+          color: #315c47;
         }
 
-        .home-top-actions {
+        .home-header-actions {
           display: flex;
+          align-items: center;
+          gap: 18px;
+        }
+
+        .home-icon-button {
+          border: none;
+          background: transparent;
+          color: #143e2d;
+          padding: 4px;
+          cursor: pointer;
+        }
+
+        .home-greeting {
+          position: relative;
+          z-index: 1;
+          margin-top: 57px;
+          max-width: 340px;
+        }
+
+        .home-greeting-small {
+          font-size: 19px;
+          font-weight: 600;
+          margin: 0 0 12px;
+          color: #17412f;
+        }
+
+        .home-greeting h1 {
+          font-family: Georgia, serif;
+          font-size: 43px;
+          line-height: 1.12;
+          font-weight: 700;
+          margin: 0;
+          color: #064a35;
+        }
+
+        .home-greeting-subtitle {
+          font-family: Georgia, serif;
+          font-size: 18px;
+          font-weight: 700;
+          margin: 15px 0 0;
+          color: #214a36;
+        }
+
+        /* Search */
+
+        .home-search {
+          position: absolute;
+          z-index: 3;
+          bottom: 5px;
+          left: 22px;
+          right: 22px;
+          height: 68px;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 0 20px;
+          background: #fffdf6;
+          border: 1px solid #e6e0cc;
+          border-radius: 45px;
+          box-shadow: 0 5px 15px #344c321c;
+        }
+
+        .home-search-icon {
+          color: #174a36;
+          display: flex;
+        }
+
+        .home-search input {
+          flex: 1;
+          width: 100%;
+          border: none;
+          outline: none;
+          background: transparent;
+          font-size: 15px;
+          color: #243b30;
+          min-width: 0;
+        }
+
+        .home-search input::placeholder {
+          color: #777c73;
+        }
+
+        /* Main content */
+
+        .home-content {
+          padding: 25px 20px 20px;
+        }
+
+        /* Progress */
+
+        .home-progress-card {
+          position: relative;
+          overflow: hidden;
+          padding: 20px 20px 17px;
+          color: white;
+          border-radius: 27px;
+          background: linear-gradient(145deg, #075b40, #003e2b);
+          box-shadow: 0 7px 17px #003f2c24;
+        }
+
+        .home-progress-card::after {
+          content: "❧";
+          position: absolute;
+          left: -3px;
+          bottom: -22px;
+          font-size: 74px;
+          color: #8bbd6d;
+          opacity: 0.32;
+          transform: rotate(-30deg);
+          pointer-events: none;
+        }
+
+        .home-progress-heading {
+          display: flex;
+          justify-content: space-between;
           align-items: center;
           gap: 10px;
         }
 
-        /* FIXED SETTINGS BUTTON */
-        .home-circle-btn {
-          width: 38px;
-          height: 38px;
-          min-width: 38px;
-          min-height: 38px;
-          flex-shrink: 0;           /* Prevents stretching */
-          border-radius: 50%;
-          border: 1px solid rgba(255, 255, 255, 0.8);
-          background: rgba(255, 255, 255, 0.88);
-          backdrop-filter: blur(6px);
-          color: #143f2d;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          box-shadow: 0 3px 10px rgba(20, 50, 35, 0.08);
-          padding: 0;
-          box-sizing: border-box;   /* Ensures padding doesn't affect size */
-        }
-
-        .home-greeting {
-          margin-top: 3vh;
-        }
-
-        .home-greeting-salutation {
-          font-size: 14px;
-          font-weight: 500;
-          color: #2c5945;
-          margin: 0 0 4px;
-        }
-
-        .home-greeting h1 {
-          font-family: "Playfair Display", Georgia, serif;
-          font-size: clamp(28px, 7vh, 34px);
-          line-height: 1.1;
-          font-weight: 700;
-          color: #0b4631;
+        .home-progress-heading h2 {
+          font-family: Georgia, serif;
+          font-size: 23px;
+          font-weight: 600;
           margin: 0;
         }
 
-        .home-greeting-sub {
-          font-size: 13px;
+        .home-view-details {
+          display: flex;
+          align-items: center;
+          gap: 3px;
+          border: none;
+          background: transparent;
+          color: white;
+          font-size: 12px;
           font-weight: 600;
-          color: #1f3e30;
-          margin: 6px 0 0;
+          cursor: pointer;
+          white-space: nowrap;
         }
 
-        /* SEARCH BAR */
-        .home-search {
-          position: absolute;
-          bottom: 2px; /* Changed from -15px to pull it closer to the text */
-          left: 20px;
-          right: 20px;
-          height: 48px;
-          background: rgba(255, 255, 255, 0.98);
-          border: 1px solid #e6e2d6;
-          border-radius: 999px;
-          padding: 0 16px;
+        .home-progress-main {
           display: flex;
           align-items: center;
-          gap: 11px;
-          box-shadow: 0 6px 18px rgba(24, 52, 38, 0.07);
-          z-index: 10;
-        }
-
-        .home-search-left { color: #2b4c3b; display: flex; }
-        .home-search input {
-          flex: 1; border: none; outline: none; background: transparent;
-          font-size: 14px; color: #243b30; min-height: unset; padding: 0;
-        }
-        .home-search input::placeholder { color: #6e766f; }
-        .home-search-go {
-          background: transparent; border: none; color: #4f5d54;
-          display: flex; align-items: center; padding: 4px; cursor: pointer;
-        }
-
-        /* MAIN BODY (Flexes to fill remaining space) */
-        .home-main {
-          flex: 1;
-          padding: 10px 20px 20px; /* Reduced top padding from 35px to 10px */
-          display: flex;
-          flex-direction: column;
-          justify-content: space-evenly; 
-          margin-bottom: 76px; 
-        }
-
-        /* TODAY'S PROGRESS */
-        .home-progress-card {
-          border-radius: 20px;
-          padding: 16px;
-          background: linear-gradient(135deg, #0d4833 0%, #073524 100%);
-          color: #ffffff;
-          box-shadow: 0 10px 24px rgba(9, 56, 39, 0.18);
-          display: flex;
-          align-items: center;
-          flex-shrink: 0;
-        }
-
-        .home-progress-left {
-          padding-right: 14px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
+          gap: 25px;
+          padding: 15px 7px 19px;
         }
 
         .home-progress-ring {
-          width: 76px;
-          height: 76px;
+          width: 125px;
+          height: 125px;
+          flex-shrink: 0;
           border-radius: 50%;
-          background: conic-gradient(#42b883 0% 25%, rgba(255, 255, 255, 0.16) 25% 100%);
+          background: conic-gradient(
+            #a6d83d 0% 67%,
+            #d9e98a 67% 72%,
+            #367f5c 72% 100%
+          );
           display: flex;
           align-items: center;
           justify-content: center;
+          transform: rotate(-3deg);
         }
 
         .home-progress-ring-inner {
-          width: 62px;
-          height: 62px;
+          width: 101px;
+          height: 101px;
           border-radius: 50%;
-          background: #0b412d;
+          background: #075039;
           display: flex;
           align-items: center;
           justify-content: center;
+          transform: rotate(3deg);
+          font-family: Georgia, serif;
+          font-size: 31px;
+          font-weight: 700;
+        }
+
+        .home-progress-summary {
+          font-family: Georgia, serif;
           font-size: 20px;
-          font-weight: 700;
-          color: #ffffff;
-        }
-
-        .home-progress-vdivider {
-          width: 1px;
-          align-self: stretch;
-          background: rgba(255, 255, 255, 0.16);
-          margin: 4px 0;
-        }
-
-        .home-progress-right {
-          flex: 1;
-          padding-left: 14px;
-          min-width: 0;
-        }
-
-        .home-progress-toprow {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-        }
-
-        .home-progress-title {
-          font-size: 15px;
-          font-weight: 700;
-          color: #ffffff;
-          margin: 0;
-        }
-
-        .home-progress-sub {
-          font-size: 11px;
-          color: #b7cec2;
-          margin: 2px 0 0;
+          line-height: 1.5;
+          max-width: 150px;
         }
 
         .home-progress-stats {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          margin-top: 10px;
+          padding-top: 5px;
         }
 
         .home-stat {
           display: flex;
           flex-direction: column;
           align-items: center;
+          gap: 5px;
           text-align: center;
+          color: #f7f5e8;
           position: relative;
         }
 
         .home-stat + .home-stat::before {
-          content: ""; position: absolute; left: 0; top: 4px; bottom: 2px;
-          width: 1px; background: rgba(255, 255, 255, 0.16);
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 15px;
+          bottom: 8px;
+          width: 1px;
+          background: #9bb6a3;
+          opacity: 0.55;
         }
 
         .home-stat-icon {
-          color: #d6b265;
-          margin-bottom: 2px;
+          color: #e7d58b;
+          height: 35px;
           display: flex;
+          align-items: center;
         }
 
-        .home-stat:nth-child(2) .home-stat-icon,
-        .home-stat:nth-child(3) .home-stat-icon { color: #7cc9a5; }
-
-        .home-stat-label { font-size: 10px; color: #c5d9cf; }
-        .home-stat-value {
-          font-family: "Playfair Display", Georgia, serif;
-          font-size: 16px; font-weight: 700; color: #ffffff; margin-top: 1px;
+        .home-stat-label {
+          font-size: 14px;
         }
 
-        /* QUICK ACTIONS */
-        .home-section-head {
+        .home-stat strong {
+          font-family: Georgia, serif;
+          font-size: 23px;
+        }
+
+        /* Quick actions */
+
+        .home-section-heading {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 5px; /* Reduced from 10px */
+          margin: 28px 0 16px;
         }
 
-        .home-section-head h2 {
-          font-family: "Playfair Display", Georgia, serif;
-          font-size: 20px; font-weight: 700; color: #133929; margin: 0;
+        .home-section-heading h2 {
+          font-size: 21px;
+          font-weight: 700;
+          margin: 0;
+          color: #163c2c;
         }
 
         .home-see-all {
-          background: transparent; border: none; color: #29493a;
-          font-size: 12px; font-weight: 600; display: inline-flex;
-          align-items: center; gap: 3px; cursor: pointer; padding: 0;
+          display: flex;
+          align-items: center;
+          gap: 3px;
+          border: none;
+          background: transparent;
+          color: #174a35;
+          font-size: 13px;
+          font-weight: 700;
+          cursor: pointer;
         }
 
-        .home-quick-grid {
+        .home-quick-actions {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 8px;
-          flex-shrink: 0;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 10px;
         }
 
-        .home-quick-btn {
-          height: 78px; /* Compact height */
-          border-radius: 16px;
-          background: #f8f6ef;
-          border: 1px solid #e8e4d8;
-          box-shadow: 0 4px 12px rgba(30, 50, 38, 0.05);
+        .home-quick-action {
+          min-width: 0;
+          min-height: 100px;
+          border: 1px solid #e7ebd6;
+          border-radius: 20px;
+          background: #eff1d9;
+          color: #164c37;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 6px;
-          color: #124d36;
+          gap: 8px;
+          cursor: pointer;
+          box-shadow: 0 3px 9px #33452b0d;
+        }
+
+        .home-quick-action span {
+          font-size: 13px;
+          font-weight: 600;
+        }
+
+        /* Featured Dua */
+
+        .home-featured-card {
+          display: grid;
+          grid-template-columns: 40% 60%;
+          min-height: 175px;
+          overflow: hidden;
+          border-radius: 22px;
+          margin-top: 27px;
+          background: #f6e8c7;
+          border: 1px solid #e6d6b6;
+          box-shadow: 0 4px 12px #6b4d2518;
+        }
+
+        .home-featured-image {
+          min-height: 175px;
+          background:
+            url("https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=700")
+            center / cover no-repeat;
+        }
+
+        .home-featured-content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 15px 14px;
+          background: linear-gradient(135deg, #fff3d8, #f5e2b9);
+        }
+
+        .home-featured-label {
+          align-self: flex-start;
+          border-radius: 20px;
+          padding: 5px 10px;
+          background: #dfe9bd;
+          color: #274a31;
+          font-size: 10px;
+          font-weight: 800;
+          margin-bottom: 10px;
+        }
+
+        .home-featured-content h3 {
+          font-family: Georgia, serif;
+          font-size: 20px;
+          line-height: 1.2;
+          color: #253e2b;
+          margin: 0 0 12px;
+        }
+
+        .home-featured-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          align-self: flex-start;
+          border: none;
+          border-radius: 25px;
+          padding: 9px 15px;
+          background: #08704e;
+          color: white;
+          font-family: Georgia, serif;
+          font-size: 13px;
+          font-weight: 700;
           cursor: pointer;
         }
 
-        .home-quick-btn span {
-          font-size: 11.5px;
-          font-weight: 600;
-          color: #1e3a2d;
-        }
+        /* Bottom navigation */
 
-        /* BOTTOM NAVIGATION */
         .home-bottom-nav {
-          position: fixed; bottom: 0; left: 0; right: 0; z-index: 20;
-          background: #f8f6ef; border-top: 1px solid #e6e2d5;
-          padding: 8px 12px max(10px, env(safe-area-inset-bottom));
+          position: fixed;
+          z-index: 10;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: #fffdf6;
+          border-top: 1px solid #e9e5d8;
+          box-shadow: 0 -4px 14px #273d3010;
+          padding: 9px 12px max(9px, env(safe-area-inset-bottom));
         }
 
         .home-bottom-nav-inner {
-          max-width: 480px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr);
+          max-width: 520px;
+          margin: auto;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
         }
 
         .home-nav-item {
-          border: none; background: transparent; color: #616e66;
-          display: flex; flex-direction: column; align-items: center;
-          justify-content: center; gap: 3px; padding: 2px 0; cursor: pointer;
+          border: none;
+          background: transparent;
+          color: #747b73;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 3px;
+          padding: 4px;
+          cursor: pointer;
         }
 
-        .home-nav-item.active { color: #0b4a35; }
-        .home-nav-item span { font-size: 11.5px; font-weight: 500; }
-        .home-nav-item.active span { font-weight: 700; }
+        .home-nav-item.active {
+          color: #08704e;
+        }
+
+        .home-nav-item span {
+          font-size: 12px;
+          font-weight: 600;
+        }
+
+        .home-nav-item.active::after {
+          content: "";
+          height: 3px;
+          width: 48px;
+          border-radius: 5px;
+          background: #08704e;
+          margin-top: 2px;
+        }
+
+        @media (min-width: 600px) {
+          .home-page {
+            padding-bottom: 110px;
+          }
+
+          .home-hero {
+            min-height: 540px;
+            border-radius: 0 0 28px 28px;
+          }
+
+          .home-content {
+            padding-left: 25px;
+            padding-right: 25px;
+          }
+        }
+
+        @media (max-width: 380px) {
+          .home-hero {
+            min-height: 465px;
+            padding-left: 19px;
+            padding-right: 19px;
+          }
+
+          .home-brand-mark {
+            width: 65px;
+            height: 65px;
+          }
+
+          .home-brand-name {
+            font-size: 31px;
+          }
+
+          .home-brand-tagline {
+            font-size: 12px;
+          }
+
+          .home-header-actions {
+            gap: 8px;
+          }
+
+          .home-greeting {
+            margin-top: 48px;
+          }
+
+          .home-greeting h1 {
+            font-size: 36px;
+          }
+
+          .home-progress-card {
+            padding: 17px 14px;
+          }
+
+          .home-progress-heading h2 {
+            font-size: 20px;
+          }
+
+          .home-progress-ring {
+            width: 105px;
+            height: 105px;
+          }
+
+          .home-progress-ring-inner {
+            width: 85px;
+            height: 85px;
+            font-size: 27px;
+          }
+
+          .home-progress-main {
+            gap: 15px;
+          }
+
+          .home-progress-summary {
+            font-size: 17px;
+          }
+
+          .home-quick-actions {
+            gap: 7px;
+          }
+
+          .home-quick-action {
+            min-height: 88px;
+          }
+
+          .home-quick-action span {
+            font-size: 11px;
+          }
+
+          .home-featured-content h3 {
+            font-size: 17px;
+          }
+        }
       `}</style>
 
       <div className="home-container">
-        {/* HERO */}
+        {/* HERO HEADER */}
+
         <section className="home-hero">
           <header className="home-topbar">
             <div className="home-brand">
-              {/* Using a standard img tag for your custom logo asset */}
-              <img 
-                src="/src/assets/logo.png" 
-                alt="Aamaal Logo" 
-                className="home-brand-logo"
-                onError={(e) => {
-                   // Fallback circle if image path is incorrect
-                   e.target.style.display = 'none';
-                }}
-              />
+              <svg
+                className="home-brand-mark"
+                viewBox="0 0 100 90"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinejoin="round"
+                aria-label="Aamaal mosque logo"
+              >
+                <path d="M7 80V39L50 5l43 34v41" />
+                <path d="M25 80V54a25 25 0 0 1 50 0v26" />
+                <path d="M35 80V51a15 15 0 0 1 30 0v29" />
+                <path d="M50 25V17" />
+                <path d="M46 17h8" />
+                <path d="M3 80h94" />
+                <path d="M13 80V59l-5-6-5 6v21" />
+                <path d="M97 80V59l-5-6-5 6v21" />
+              </svg>
 
               <div>
-                <h2 className="home-brand-name">Aamaal</h2>
-                <div className="home-brand-tagline">Live with Purpose</div>
+                <p className="home-brand-name">Aamaal</p>
+                <div className="home-brand-tagline">
+                  Live with Purpose
+                </div>
               </div>
             </div>
 
-            <div className="home-top-actions">
-              <button className="home-circle-btn" onClick={() => navigate("/search")}>
-                <Icon name="search" size={20} />
+            <div className="home-header-actions">
+              <button
+                className="home-icon-button"
+                onClick={() => navigate("/notifications")}
+                aria-label="Notifications"
+              >
+                <Icon name="bell" size={27} />
               </button>
-              <button className="home-circle-btn" onClick={() => navigate("/settings")}>
-                <Icon name="settings" size={20} />
+
+              <button
+                className="home-icon-button"
+                onClick={() => navigate("/settings")}
+                aria-label="Settings"
+              >
+                <Icon name="settings" size={27} />
               </button>
             </div>
           </header>
 
           <div className="home-greeting">
-            <p className="home-greeting-salutation">Assalamu Alaikum</p>
-            <h1>Your spiritual<br />journey</h1>
-            <p className="home-greeting-sub">Take a step closer to Allah</p>
+            <p className="home-greeting-small">
+              Assalamu Alaikum, {profileName}
+            </p>
+
+            <h1>
+              Your spiritual
+              <br />
+              journey
+            </h1>
+
+            <p className="home-greeting-subtitle">
+              Take a step closer to Allah
+            </p>
           </div>
 
           <form className="home-search" onSubmit={handleSearch}>
-            <span className="home-search-left">
-              <Icon name="search" size={20} />
-            </span>
+            <div className="home-search-icon">
+              <Icon name="search" size={27} />
+            </div>
+
             <input
               type="search"
-              placeholder="Search duas and reflections..."
+              placeholder="Search duas, reflections..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(event) => setSearch(event.target.value)}
+              aria-label="Search Aamaal"
             />
-            <button type="submit" className="home-search-go">
-              <Icon name="arrow" size={18} />
-            </button>
           </form>
         </section>
 
-        {/* MAIN CONTENT (Dynamically spaced) */}
-        <main className="home-main">
-          
+        <main className="home-content">
+          {/* TODAY'S PROGRESS */}
+
           <section className="home-progress-card">
-            <div className="home-progress-left">
+            <div className="home-progress-heading">
+              <h2>Today's Progress</h2>
+
+              <button
+                className="home-view-details"
+                onClick={() => navigate("/progress")}
+              >
+                View details
+                <Icon name="arrow" size={17} />
+              </button>
+            </div>
+
+            <div className="home-progress-main">
               <div className="home-progress-ring">
                 <div className="home-progress-ring-inner">
                   {progress.percentage}%
                 </div>
               </div>
-            </div>
-            <div className="home-progress-vdivider" />
-            <div className="home-progress-right">
-              <div className="home-progress-toprow">
-                <div>
-                  <h2 className="home-progress-title">Today's Progress</h2>
-                  <p className="home-progress-sub">
-                    {progress.completedGoals} of {progress.totalGoals} goals completed
-                  </p>
-                </div>
+
+              <div className="home-progress-summary">
+                {progress.completedGoals} of {progress.totalGoals} Goals
+                <br />
+                completed
               </div>
-              <div className="home-progress-stats">
-                <div className="home-stat">
-                  <span className="home-stat-icon"><Icon name="tasbih" size={18} /></span>
-                  <span className="home-stat-label">Dhikr</span>
-                  <strong className="home-stat-value">{progress.dhikr}</strong>
+            </div>
+
+            <div className="home-progress-stats">
+              <div className="home-stat">
+                <div className="home-stat-icon">
+                  <Icon name="tasbih" size={34} />
                 </div>
-                <div className="home-stat">
-                  <span className="home-stat-icon"><Icon name="book" size={18} /></span>
-                  <span className="home-stat-label">Sessions</span>
-                  <strong className="home-stat-value">{progress.sessions}</strong>
+                <span className="home-stat-label">Dhikr</span>
+                <strong>{progress.dhikr}</strong>
+              </div>
+
+              <div className="home-stat">
+                <div className="home-stat-icon">
+                  <Icon name="book" size={34} />
                 </div>
-                <div className="home-stat">
-                  <span className="home-stat-icon"><Icon name="bell" size={18} /></span>
-                  <span className="home-stat-label">Reminders</span>
-                  <strong className="home-stat-value">{progress.reminders}</strong>
+                <span className="home-stat-label">Sessions</span>
+                <strong>{progress.sessions}</strong>
+              </div>
+
+              <div className="home-stat">
+                <div className="home-stat-icon">
+                  <Icon name="bell" size={34} />
                 </div>
+                <span className="home-stat-label">Reminders</span>
+                <strong>{progress.reminders}</strong>
               </div>
             </div>
           </section>
 
+          {/* QUICK ACTIONS */}
+
           <section>
-            <div className="home-section-head">
+            <div className="home-section-heading">
               <h2>Quick Actions</h2>
-              <button className="home-see-all" onClick={() => navigate("/more")}>
-                See all <Icon name="arrow" size={14} />
+
+              <button
+                className="home-see-all"
+                onClick={() => navigate("/more")}
+              >
+                See all
+                <Icon name="arrow" size={16} />
               </button>
             </div>
-            <div className="home-quick-grid">
-              {quickActions.map((item) => (
-                <button key={item.title} className="home-quick-btn" onClick={() => navigate(item.route)}>
-                  <Icon name={item.icon} size={26} />
-                  <span>{item.title}</span>
+
+            <div className="home-quick-actions">
+              {quickActions.map((action) => (
+                <button
+                  key={action.title}
+                  className="home-quick-action"
+                  onClick={() => navigate(action.route)}
+                >
+                  <Icon name={action.icon} size={33} />
+                  <span>{action.title}</span>
                 </button>
               ))}
+            </div>
+          </section>
+
+          {/* FEATURED DUA */}
+
+          <section className="home-featured-card">
+            <div className="home-featured-image" />
+
+            <div className="home-featured-content">
+              <span className="home-featured-label">
+                DAILY FEATURED DUA
+              </span>
+
+              <h3>Dua for ease in affairs</h3>
+
+              <button
+                className="home-featured-button"
+                onClick={() => navigate("/duas/featured")}
+              >
+                Read dua
+                <Icon name="arrow" size={16} />
+              </button>
             </div>
           </section>
         </main>
       </div>
 
       {/* BOTTOM NAVIGATION */}
+
       <nav className="home-bottom-nav">
         <div className="home-bottom-nav-inner">
           <button className="home-nav-item active">
-            <Icon name="home-filled" size={24} />
+            <Icon name="home" size={27} />
             <span>Home</span>
           </button>
-          <button className="home-nav-item" onClick={() => navigate("/tasbih")}>
-            <Icon name="tasbih" size={24} />
+
+          <button
+            className="home-nav-item"
+            onClick={() => navigate("/tasbih")}
+          >
+            <Icon name="tasbih" size={27} />
             <span>Tasbih</span>
           </button>
-          <button className="home-nav-item" onClick={() => navigate("/duas")}>
-            <Icon name="book" size={24} />
+
+          <button
+            className="home-nav-item"
+            onClick={() => navigate("/duas")}
+          >
+            <Icon name="book" size={27} />
             <span>Duas</span>
           </button>
-          <button className="home-nav-item" onClick={() => navigate("/more")}>
-            <Icon name="more" size={24} />
+
+          <button
+            className="home-nav-item"
+            onClick={() => navigate("/more")}
+          >
+            <Icon name="more" size={27} />
             <span>More</span>
           </button>
         </div>
