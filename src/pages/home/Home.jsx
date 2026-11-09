@@ -214,7 +214,7 @@ export default function Home() {
           height: 38px;
           min-width: 38px;
           min-height: 38px;
-          flex-shrink: 0;
+          flex-shrink: 0;           /* Prevents stretching */
           border-radius: 50%;
           border: 1px solid rgba(255, 255, 255, 0.8);
           background: rgba(255, 255, 255, 0.88);
@@ -226,6 +226,7 @@ export default function Home() {
           cursor: pointer;
           box-shadow: 0 3px 10px rgba(20, 50, 35, 0.08);
           padding: 0;
+          box-sizing: border-box;   /* Ensures padding doesn't affect size */
         }
 
         .home-greeting {
@@ -258,7 +259,7 @@ export default function Home() {
         /* SEARCH BAR */
         .home-search {
           position: absolute;
-          bottom: -15px; /* Pulls search bar up into the hero */
+          bottom: 2px; /* Changed from -15px to pull it closer to the text */
           left: 20px;
           right: 20px;
           height: 48px;
@@ -287,11 +288,11 @@ export default function Home() {
         /* MAIN BODY (Flexes to fill remaining space) */
         .home-main {
           flex: 1;
-          padding: 35px 20px 20px; /* Space for search bar overlap */
+          padding: 10px 20px 20px; /* Reduced top padding from 35px to 10px */
           display: flex;
           flex-direction: column;
-          justify-content: space-evenly; /* Perfectly spaces cards vertically */
-          margin-bottom: 76px; /* Room for bottom nav */
+          justify-content: space-evenly; 
+          margin-bottom: 76px; 
         }
 
         /* TODAY'S PROGRESS */
@@ -408,7 +409,7 @@ export default function Home() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 10px;
+          margin-bottom: 5px; /* Reduced from 10px */
         }
 
         .home-section-head h2 {
