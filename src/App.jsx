@@ -1,6 +1,9 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/home/Home";
+/*Components*/
 import PageLayout  from "./components/PageLayout";
+/*pages.Home*/
+import Home from "./pages/home/Home";
+/*pages.Onboarding */
 import AccountRecovery from "./pages/onboarding/AccountRecovery";
 import Authentication from "./pages/onboarding/Authentication";
 import DuaIntro from "./pages/onboarding/DuaIntro";
@@ -13,6 +16,17 @@ import Splash from "./pages/onboarding/Splash";
 import StoriesIntro from "./pages/onboarding/StoriesIntro";
 import TasbihIntro from "./pages/onboarding/TasbihIntro";
 import Welcome from "./pages/onboarding/Welcome";
+/*pages.Account */
+import AccountDashboard from "./pages/account/AccountDashboard";
+import AccountSecurity from "./pages/account/AccountSecurity";
+import AddFamilyMember from "./pages/account/AddFamilyMember";
+import EditFamilyMember from "./pages/account/EditFamilyMember";
+import FamilyMemberAamaal from "./pages/account/FamilyMemberAamaal";
+import FamilyMemberDetails from "./pages/account/FamilyMemberDetails";
+import FamilySelector from "./pages/account/FamilySelector";
+import LogoutConfirmation from "./pages/account/LogoutConfirmation";
+import PersonalProfile from "./pages/account/PersonalProfile";
+import RemoveFamilyMember from "./pages/account/RemoveFamilyMember";
 
 function ComingSoon({ title }) {
   return (
@@ -94,37 +108,37 @@ function App() {
 
       <Route
         path="/account/profile"
-        element={<ComingSoon title="Personal Profile" />}
+        element={<PersonalProfile />}
       />
 
       <Route
         path="/account/family"
-        element={<ComingSoon title="Family Profiles" />}
+        element={<FamilySelector />}
       />
 
       <Route
         path="/account/family/add"
-        element={<ComingSoon title="Add Family Member" />}
+        element={<AddFamilyMember />}
       />
 
       <Route
         path="/account/family/:profileId"
-        element={<ComingSoon title="Family Member Details" />}
+        element={<FamilyMemberDetails />}
       />
 
       <Route
         path="/account/family/:profileId/edit"
-        element={<ComingSoon title="Edit Family Member" />}
+        element={<EditFamilyMember />}
       />
 
       <Route
         path="/account/family/:profileId/aamaal"
-        element={<ComingSoon title="Family Member Aamaal" />}
+        element={<FamilyMemberAamaal />}
       />
 
       <Route
         path="/account/family/:profileId/remove"
-        element={<ComingSoon title="Remove Family Member" />}
+        element={<RemoveFamilyMember />}
       />
 
       <Route
@@ -134,7 +148,7 @@ function App() {
 
       <Route
         path="/logout"
-        element={<ComingSoon title="Sign Out" />}
+        element={<LogoutConfirmation />}
       />
 
       {/* Home Dashboard */}
