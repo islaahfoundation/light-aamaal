@@ -1,6 +1,17 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import PageLayout  from "./components/PageLayout";
+import AccountRecovery from "./pages/onboarding/AccountRecovery";
+import Authentication from "./pages/onboarding/Authentication";
+import DuaIntro from "./pages/onboarding/DuaIntro";
+import LanguageSelection from "./pages/onboarding/LanguageSelection";
+import NotificationIntro from "./pages/onboarding/NotificationIntro";
+import NotificationPermission from "./pages/onboarding/NotificationPermission";
+import Preferences from "./pages/onboarding/Preferences";
+import Purpose from "./pages/onboarding/Purpose";
+import Splash from "./pages/onboarding/Splash";
+import StoriesIntro from "./pages/onboarding/StoriesIntro";
+import TasbihIntro from "./pages/onboarding/TasbihIntro";
 import Welcome from "./pages/onboarding/Welcome";
 
 function ComingSoon({ title }) {
@@ -26,53 +37,53 @@ function App() {
       {/* Onboarding */}
       <Route
       path="/onboarding/purpose"
-      element={<Welcome />}
+      element={<Purpose />}
       />
 
       <Route
         path="/onboarding/tasbih"
-        element={<ComingSoon title="Tasbih" />}
+        element={<TasbihIntro />}
       />
 
       <Route
         path="/onboarding/duas"
-        element={<ComingSoon title="Duas" />}
+        element={<DuaIntro />}
       />
 
       <Route
         path="/onboarding/stories"
-        element={<ComingSoon title="Stories" />}
+        element={<StoriesIntro />}
       />
 
       <Route
         path="/onboarding/language"
-        element={<ComingSoon title="Choose Language" />}
+        element={<LanguageSelection />}
       />
 
       <Route
         path="/onboarding/preferences"
-        element={<ComingSoon title="Preferences" />}
+        element={<Preferences />}
       />
 
       <Route
         path="/onboarding/notifications"
-        element={<ComingSoon title="Notifications" />}
+        element={<NotificationIntro />}
       />
 
       <Route
         path="/onboarding/notification-permission"
-        element={<ComingSoon title="Notification Permission" />}
+        element={<NotificationPermission />}
       />
 
       {/* Authentication */}
       <Route
         path="/login"
-        element={<ComingSoon title="Welcome to Aamaal" />}
+        element={<Authentication />}
       />
 
       <Route
         path="/forgot-password"
-        element={<ComingSoon title="Account Recovery" />}
+        element={<AccountRecovery />}
       />
 
       {/* Account and Family */}
