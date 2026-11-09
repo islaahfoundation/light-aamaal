@@ -298,7 +298,7 @@ export default function Home() {
         /* TODAY'S PROGRESS */
         .home-progress-card {
           border-radius: 20px;
-          padding: 13px;
+          padding: 16px;
           background: linear-gradient(135deg, #0d4833 0%, #073524 100%);
           color: #ffffff;
           box-shadow: 0 10px 24px rgba(9, 56, 39, 0.18);
