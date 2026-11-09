@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home/Home";
+import PageLayout  from "./components/PageLayout";
 
 function ComingSoon({ title }) {
   return (
@@ -127,7 +128,11 @@ function App() {
       {/* Home Dashboard */}
       <Route
         path="/home"
-        element={<ComingSoon title="Home Dashboard" />}
+        element={
+        <PageLayout showHeader={false} showBottomNav={false}>
+          <Home/>
+          </PageLayout>
+          }
       />
 
       <Route
