@@ -1,0 +1,103 @@
+/* ========================================
+
+AAMAAL — SHARED PAGE LAYOUT
+
+======================================== */
+
+
+
+.page-layout {
+
+width: 100%;
+
+max-width: 480px;
+
+min-height: 100vh;
+
+margin: 0 auto;
+
+padding: 0 20px;
+
+
+
+display: flex;
+
+flex-direction: column;
+
+
+
+background: var(--color-background);
+
+}
+
+
+
+.page-layout-header {
+
+width: 100%;
+
+flex-shrink: 0;
+
+}
+
+
+
+.page-layout-content {
+
+width: 100%;
+
+flex: 1;
+
+padding-top: 12px;
+
+padding-bottom: 32px;
+
+}
+
+
+
+/* Space for fixed bottom navigation */
+
+
+
+.page-layout:has(.bottom-navigation) .page-layout-content {
+
+padding-bottom: 105px;
+
+}
+
+
+
+/* Full-width layout on small devices */
+
+
+
+@media (max-width: 480px) {
+
+.page-layout {
+
+padding-left: 16px;
+
+padding-right: 16px;
+
+}
+
+}
+
+
+
+/* Tablet and desktop preview */
+
+
+
+@media (min-width: 768px) {
+
+.page-layout {
+
+border-left: 1px solid var(--color-border);
+
+border-right: 1px solid var(--color-border);
+
+}
+
+}
