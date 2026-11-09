@@ -46,7 +46,7 @@ function App() {
   return (
     <Routes>
       {/* Default route */}
-      <Route path="/" element={<Navigate to="/home" replace />} />
+      <Route path="/home" element={<Home />} />
 
       {/* Onboarding */}
       <Route
