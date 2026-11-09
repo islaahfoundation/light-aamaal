@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import PageLayout  from "./components/PageLayout";
+import Welcome from "./pages/onboarding/Welcome";
 
 function ComingSoon({ title }) {
   return (
@@ -24,8 +25,8 @@ function App() {
 
       {/* Onboarding */}
       <Route
-        path="/onboarding/purpose"
-        element={<ComingSoon title="Purpose" />}
+      path="/onboarding/purpose"
+      element={<Welcome />}
       />
 
       <Route
